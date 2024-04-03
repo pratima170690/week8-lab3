@@ -5,14 +5,17 @@
       <h2>Sender: <%= message.sender %></h2>
       <div><%= message.recipient %></div>
       <p>
-       <div><%= message.content %></div>
-       <!--  <strong>Target Date:</strong> <%= formatDate(message.targetDate) %><br />
-        <strong>Achieved:</strong> <%= message.achieved %>
-      </p> -->
+        <div><%= message.content %></div>
+        <!-- <strong>Target Date:</strong> <%= formatDate(message.targetDate) %><br />
+        <strong>Achieved:</strong> <%= message.achieved %> -->
+      </p> 
   
-        <!-- Update button -->
+      <!-- Update button -->
       <form
-        class="action-form">
+        class="action-form"
+        method="GET"
+        action="/single-message/update/<%= message._id %>"
+      >
         <button type="submit" class="update">update</button>
       </form>
   

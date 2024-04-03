@@ -34,7 +34,10 @@ app.post("/addmessage", blogSSR.addMessage);
 app.get("/single-message/:id", blogSSR.renderMessage);
 // Define a route to delete singlemessage
 app.delete("/single-message/:id", blogSSR.deleteMessage);
-
+// Define a route to update single message.ejs
+app.put("/single-message/:id", blogSSR.updateMessage);
+// Define messageto update
+app.get("/single-message/update/:id", blogSSR.renderUpdateMessage);
 
 // API
 // GET all Messages
@@ -43,7 +46,7 @@ app.get("/api/messages", blogAPI.getMessages);
 app.post("/api/messages", blogAPI.addMessage);
 // GET a single Message
 app.get("/api/messages/:id", blogAPI.getMessage);
-// Update Messageusing PUT
+// Update Message using PUT
 app.put("/api/messages/:id", blogAPI.updateMessage);
 // DELETE a Message
 app.delete("/api/messages/:id", blogAPI.deleteMessage);

@@ -15,11 +15,11 @@ const renderMessages = async (req, res) => {
 const renderMessage = async (req, res) => {
   try {
     const { id } = req.params;
-    const message = await Message.findById(id);
+    const message= await Message.findById(id);
     if (!message) {
       return res.render("notfound");
     }
-    res.render("singlemessage", { message }); // Render index.ejs with 
+    res.render("singlemessage", { message}); // Render index.ejs with 
   } catch (error) {
     console.error("Error rendering Message:", error);
     res.status(500).render("error");
@@ -35,12 +35,12 @@ const renderForm = (req, res) => {
   }
 };
 
-// Controller function to handle adding a new message (used for rendering and API)
+// Controller function to handle adding a new message(used for rendering and API)
 const addMessage = async (req, res) => {
   try {
     const { sender, recipient, content } = req.body;
     // Convert the achieved field to a Boolean
-   //  const achieved = req.body.achieved === "on";
+   // const achieved = req.body.achieved === "on";
     const newMessage = new Message({ sender, recipient, content });
     await newMessage.save();
     // Redirect to the main page after successfully adding the message
@@ -56,7 +56,7 @@ const addMessage = async (req, res) => {
 const deleteMessage = async (req, res) => {
   try {
     const { id } = req.params;
-    const message = await Message.findByIdAndDelete({ _id: id });
+    const message= await Message.findByIdAndDelete({ _id: id });
     if (!message) {
       return res.status(404).render("notfound");
     }
@@ -68,10 +68,60 @@ const deleteMessage = async (req, res) => {
   }
 };
 
+
+// Update Message by ID
+const renderUpdateMessage = async (req, res) => {
+  try {
+    const { id } = req.params;
+     
+    // Fetch the messageby id
+    const message= await Message.findById(id);
+
+    if (!message) {
+      return res.render("notfound");
+    }
+
+    // Render the singlemessage.ejs template with the messagedata
+    res.render("updatemessage", { message});
+
+  } catch (error) {
+    console.error("Error fetching Message:", error);
+    res.status(500).render("error");
+  }
+};
+
+// Handle POST request to update the message
+const updateMessage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // const achieved = req.body.achieved === "on";
+    const { sender, recipient, content } = req.body;
+    const updatedMessageData = { sender, recipient, content };
+
+    // Update the messagewith the new data
+    const updatedMessage = await Message.findOneAndUpdate({ _id: id }, updatedMessageData, { new: true });
+
+    if (!updatedMessage) {
+      return res.render("notfound");
+    }
+
+    console.log("Message updated successfully");
+
+    // Redirect to /
+    res.redirect("/");
+
+  } catch (error) {
+    console.error("Error updating Message:", error);
+    res.status(500).render("error");
+  }
+};
+
 module.exports = {
   renderMessages,
   renderMessage,
   addMessage,
   renderForm,
   deleteMessage,
+  updateMessage,
+  renderUpdateMessage,
 };
