@@ -4,14 +4,13 @@ const Message = require("../models/messageModel");
 const renderMessages = async (req, res) => {
   try {
     const messages = await Message.find({});
-    console.log(messages)
     res.render("index", { messages }); // Render index.ejs with messages data
   } catch (error) {
     console.error("Error rendering index.html:", error);
     res.status(500).render("error");
   }
 };
- 
+
 // Get Message by ID
 const renderMessage = async (req, res) => {
   try {
@@ -41,7 +40,7 @@ const addMessage = async (req, res) => {
   try {
     const { sender, recipient, content } = req.body;
     // Convert the achieved field to a Boolean
-    // const achieved = req.body.achieved === "on";
+   //  const achieved = req.body.achieved === "on";
     const newMessage = new Message({ sender, recipient, content });
     await newMessage.save();
     // Redirect to the main page after successfully adding the message
@@ -53,10 +52,26 @@ const addMessage = async (req, res) => {
   }
 };
 
+// Delete Message by ID
+const deleteMessage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const message = await Message.findByIdAndDelete({ _id: id });
+    if (!message) {
+      return res.status(404).render("notfound");
+    }
+    console.log("Message delted successfully");
+    res.redirect("/"); // Adjust the URL as needed
+  } catch (error) {
+    console.error("Error deleteing Message:", error);
+    res.status(500).render("error");
+  }
+};
 
 module.exports = {
   renderMessages,
   renderMessage,
   addMessage,
   renderForm,
+  deleteMessage,
 };

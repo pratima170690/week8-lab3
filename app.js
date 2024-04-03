@@ -28,10 +28,13 @@ connectDB();
 app.get("/", blogSSR.renderMessages);
 // Define a route to render the addmessage.ejs view
 app.get("/addmessage", blogSSR.renderForm);
-// Route to add  message using EJ
+// Route to add  messageusing EJ
 app.post("/addmessage", blogSSR.addMessage);
 // Define a route to render the singlemessage.ejs view
 app.get("/single-message/:id", blogSSR.renderMessage);
+// Define a route to delete singlemessage
+app.delete("/single-message/:id", blogSSR.deleteMessage);
+
 
 // API
 // GET all Messages
@@ -40,7 +43,7 @@ app.get("/api/messages", blogAPI.getMessages);
 app.post("/api/messages", blogAPI.addMessage);
 // GET a single Message
 app.get("/api/messages/:id", blogAPI.getMessage);
-// Update Message using PUT
+// Update Messageusing PUT
 app.put("/api/messages/:id", blogAPI.updateMessage);
 // DELETE a Message
 app.delete("/api/messages/:id", blogAPI.deleteMessage);
